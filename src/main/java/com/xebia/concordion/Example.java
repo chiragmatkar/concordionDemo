@@ -4,6 +4,10 @@ import javassist.CtClass;
 
 import org.junit.runner.Result;
 
+/**
+ * This example shows how to use <code>ConcordionRunner</code> to generate a unit test class
+ * for the test in <code>HelloWorldAgain.html</code>
+ */
 public class Example {
 	public static void main(String[] args) {
 		ConcordionRunner classGenerator = new ConcordionRunner("target", "com.xebia.concordion.FixtureTemplate");

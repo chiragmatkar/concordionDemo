@@ -1,0 +1,17 @@
+outline
+
+Concordion requires a .java file with the same name as a html test file in order to run the test.
+In practice these .java files are mostly empty <describe specific example here> and are therefore waste.
+To fix this we generate a .class file that runs the test.
+
+git clone git@github.com:jvermeir/concordionDemo
+
+ConcordionRunner generates a class using a template. The template can be simple, just extend a base fixture.
+in the example FixtureTemplate extends MyFixture. MyFixture holds all fixture code to connect the test to the
+application under test.
+HelloWorldAgain.html is the actual Concordion test. It shows the call to getGreeting(), which is a method of
+MyFixture.
+
+Example shows how to use ConcordionRunner to execute a test. This could easily be extended to recursively go through
+a directory and execute all tests found. Note that Example writes the generated class to a file. This may help in
+troubleshooting but isn't really necessary.
