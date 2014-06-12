@@ -1,17 +1,31 @@
-outline
 
-Concordion requires a .java file with the same name as a html test file in order to run the test.
-In practice these .java files are mostly empty <describe specific example here> and are therefore waste.
-To fix this we generate a .class file that runs the test.
+Concordion is a framework to support Behaviour Driven Design. It is based on JUnit to run tests and HTML
+enriched with a little Concordion syntax to call fixture methods and make assertions on test outcome. I won't
+describe Concordion because it is well documented here: http://concordion.org/.
+Instead I'll describe a small utility class I've created to avoid code duplication.
+<!-- more -->
+In Concordion you specify test cases and outcomes in a HTML file. Each HTML file is accompanied by a Java class of
+the same name that has the <code>@RunWith(ConcordionRunner.class)</code> annotation. This Java class is comparable
+with Fitnesse's fixture classes. Here you can create methods that are used in the HTML file to connect the
+test case to the business code.
 
-git clone git@github.com:jvermeir/concordionDemo
+In my particular use case we ended up writing lots of mostly empty Java files. The system under test was
+processing XML message files, so all the test needed to do was call a single method to hand the XML to
+the business code and then validate results. Each Java class was basically the same, except for its name.
 
-ConcordionRunner generates a class using a template. The template can be simple, just extend a base fixture.
-in the example FixtureTemplate extends MyFixture. MyFixture holds all fixture code to connect the test to the
-application under test.
+To avoid this duplication I created a class that uses the JavaAssist library (http://www.csg.ci.i.u-tokyo.ac.jp/~chiba/javassist/)
+to generate a
+Java class on the fly and run it as a JUnit test. You can find my code on Github:
+
+<code>git clone git@github.com:jvermeir/concordionDemo</code>
+
+ConcordionRunner generates a class using a template. The template can be simple.
+In the example FixtureTemplate extends MyFixture. MyFixture holds all fixture code to connect the test to the
+application under test. In my use case this is where we put all fixture code necessary to call a service using a XML message.
 HelloWorldAgain.html is the actual Concordion test. It shows the call to getGreeting(), which is a method of
 MyFixture.
 
-Example shows how to use ConcordionRunner to execute a test. This could easily be extended to recursively go through
+The example in <code>Example</code> shows how to use ConcordionRunner to execute a test.
+This could easily be extended to recursively go through
 a directory and execute all tests found. Note that Example writes the generated class to a file. This may help in
 troubleshooting but isn't really necessary.
